@@ -62,7 +62,7 @@ class Transloadit
 
         hash.keys.each do |key|
           if hash[key].is_a? Hash and original_hash[key].is_a? Hash
-            target[key] = target[key].deep_merge(hash[key])
+            target[key] = self.transloadit_deep_merge(  target[key],  hash[key] )
             next
           end
 
