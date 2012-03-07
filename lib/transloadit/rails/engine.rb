@@ -58,7 +58,7 @@ class Transloadit
       #
       
       def self.transloadit_deep_merge(original_hash, hash)
-        target = dup
+        target = original_hash.dup
 
         hash.keys.each do |key|
           if hash[key].is_a? Hash and original_hash[key].is_a? Hash
@@ -82,11 +82,6 @@ class Transloadit
             
           when String then self.transloadit_deep_merge({ :template_id => template }, options   )
           when Hash   then self.transloadit_deep_merge( template, options )
-            
-            
-            
-          
-              
               
         end
       end
