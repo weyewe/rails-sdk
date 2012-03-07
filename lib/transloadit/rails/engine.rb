@@ -57,11 +57,11 @@ class Transloadit
       # Creates an assembly for the named template.
       #
       
-      def self.transloadit_deep_merge(first_hash, second_hash)
+      def self.transloadit_deep_merge(original_hash, hash)
         target = dup
 
         hash.keys.each do |key|
-          if hash[key].is_a? Hash and self[key].is_a? Hash
+          if hash[key].is_a? Hash and original_hash[key].is_a? Hash
             target[key] = target[key].deep_merge(hash[key])
             next
           end
@@ -82,6 +82,11 @@ class Transloadit
             
           when String then self.transloadit_deep_merge({ :template_id => template }, options   )
           when Hash   then self.transloadit_deep_merge( template, options )
+            
+            
+            
+          
+              
               
         end
       end
