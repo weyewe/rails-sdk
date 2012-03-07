@@ -56,12 +56,33 @@ class Transloadit
       #
       # Creates an assembly for the named template.
       #
+      
+      def self.transloadit_deep_merge(first_hash, second_hash)
+        target = dup
+
+        hash.keys.each do |key|
+          if hash[key].is_a? Hash and self[key].is_a? Hash
+            target[key] = target[key].deep_merge(hash[key])
+            next
+          end
+
+          target[key] = hash[key]
+        end
+
+        target
+      end
+      
       def self.template(name, options = {})
         template = self.configuration['templates'].try(:fetch, name.to_s)
 
         self.transloadit.assembly case template
-          when String then { :template_id => template }.merge(options)
-          when Hash   then template                    .merge(options)
+          # this has to be deep_merge. fUck, how can we do that ? 
+          # when String then { :template_id => template }.merge(options)
+          #      when Hash   then template                    .merge(options)
+            
+          when String then self.transloadit_deep_merge({ :template_id => template }, options   )
+          when Hash   then self.transloadit_deep_merge( template, options )
+              
         end
       end
 
